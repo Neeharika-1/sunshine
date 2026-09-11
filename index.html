@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC CSE 2027 — Mains Foundation Register</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+:root{
+  --paper:#EFE6D3;
+  --paper-deep:#E2D4B4;
+  --panel:#F8F3E6;
+  --ink:#23283B;
+  --ink-soft:#656B80;
+  --line:#D9CBA6;
+  --tape:#B4472B;
+  --tape-soft:#F1DDD3;
+  --approved:#3E6B4F;
+  --approved-soft:#DEE9DF;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans', sans-serif;
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.serif{ font-family:'Source Serif 4', serif; }
+button{ font-family:inherit; }
+::selection{ background:var(--tape-soft); }
+:focus-visible{ outline:2px solid var(--tape); outline-offset:2px; }
+
+.app{
+  max-width:1080px;
+  margin:0 auto;
+  padding:28px 20px 60px;
+}
+
+/* ---------- Masthead ---------- */
+.masthead{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  flex-wrap:wrap;
+  gap:8px;
+  border-bottom:2px solid var(--ink);
+  padding-bottom:14px;
+  margin-bottom:22px;
+}
+.masthead h1{
+  font-size:26px;
+  font-weight:600;
+  margin:0;
+  letter-spacing:0.2px;
+}
+.masthead .sub{
+  color:var(--ink-soft);
+  font-size:13.5px;
+  margin-top:4px;
+}
+.masthead .file-no{
+  text-align:right;
+  font-size:12.5px;
+  color:var(--ink-soft);
+  line-height:1.5;
+}
+
+/* ---------- Layout: nav + content ---------- */
+.layout{
+  display:flex;
+  gap:0;
+  align-items:flex-start;
+}
+nav.tabs{
+  flex:0 0 168px;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding-top:6px;
+}
+nav.tabs button{
+  text-align:left;
+  background:var(--paper-deep);
+  border:1px solid var(--line);
+  border-right:none;
+  color:var(--ink-soft);
+  padding:11px 14px;
+  font-size:14px;
+  border-radius:7px 0 0 7px;
+  cursor:pointer;
+  transition:background 120ms ease, color 120ms ease;
+}
+nav.tabs button:hover{ color:var(--ink); }
+nav.tabs button.active{
+  background:var(--panel);
+  color:var(--ink);
+  font-weight:600;
+  position:relative;
+}
+nav.tabs button.active::after{
+  content:"";
+  position:absolute;
+  right:-1px; top:0; bottom:0;
+  width:1px;
+  background:var(--panel);
+}
+
+main.panel{
+  flex:1;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:0 10px 10px 10px;
+  padding:26px 28px;
+  min-height:420px;
+}
+
+@media (max-width: 720px){
+  .app{ padding:18px 14px 48px; }
+  .layout{ flex-direction:column; }
+  nav.tabs{
+    flex-direction:row;
+    overflow-x:auto;
+    flex:none;
+    width:100%;
+    padding-top:0;
+    padding-bottom:2px;
+    gap:6px;
+  }
+  nav.tabs button{
+    border-right:1px solid var(--line);
+    border-radius:7px 7px 0 0;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  nav.tabs button.active::after{ display:none; }
+  main.panel{ border-radius:0 8px 8px 8px; padding:20px 16px; }
+  .masthead{ flex-direction:column; align-items:flex-start; }
+  .masthead .file-no{ text-align:left; }
+}
+
+/* ---------- Shared bits ---------- */
+.eyebrow-line{
+  display:flex; align-items:center; gap:10px;
+  color:var(--ink-soft); font-size:13px; margin-bottom:18px;
+}
+.progress-track{
+  flex:1; height:6px; background:var(--line); border-radius:4px; overflow:hidden;
+}
+.progress-fill{ height:100%; background:var(--tape); border-radius:4px; }
+
+.tag{
+  display:inline-block;
+  font-size:11.5px;
+  padding:2px 9px;
+  border-radius:20px;
+  font-weight:600;
+}
+.tag.current{ background:var(--tape); color:var(--panel); }
+.tag.done{ background:var(--approved); color:var(--panel); }
+.tag.overdue{ background:var(--ink); color:var(--panel); }
+
+.today-hero{
+  display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.today-hero .date-block .weekday{ color:var(--ink-soft); font-size:14px; }
+.today-hero .date-block .datenum{ font-size:34px; font-weight:600; margin:2px 0 0; }
+.today-hero .day-count{ text-align:right; font-size:13px; color:var(--ink-soft); }
+.today-hero .day-count strong{ color:var(--ink); font-size:15px; }
+
+.block-card{
+  border:1px solid var(--line);
+  border-left:4px solid var(--line);
+  border-radius:6px;
+  padding:16px 18px;
+  margin-bottom:18px;
+  background:var(--paper);
+}
+.block-card.current{ border-left-color:var(--tape); }
+.block-card h3{ font-size:19px; margin:2px 0 8px; }
+.block-card .coverage{ font-size:13.8px; color:var(--ink-soft); max-width:68ch; }
+.block-card .milestone-row{
+  margin-top:12px; padding-top:12px; border-top:1px dashed var(--line);
+  display:flex; gap:10px; align-items:flex-start; font-size:13.6px;
+}
+.block-card .dates{ font-size:12.8px; color:var(--ink-soft); }
+
+.checkline{ display:flex; align-items:flex-start; gap:9px; }
+.checkline input[type=checkbox]{
+  margin-top:3px; width:17px; height:17px; accent-color:var(--approved); cursor:pointer;
+  flex:0 0 auto;
+}
+.checkline label{ cursor:pointer; }
+.stamped{ animation: stamp 220ms ease; }
+@keyframes stamp{
+  0%{ transform:scale(1.35) rotate(-6deg); opacity:0.4; }
+  100%{ transform:scale(1) rotate(0deg); opacity:1; }
+}
+
+.notes-field{
+  width:100%; margin-top:8px; resize:vertical; min-height:44px;
+  font-family:inherit; font-size:13px; padding:8px 10px;
+  border:1px solid var(--line); border-radius:5px; background:var(--panel); color:var(--ink);
+}
+
+section h2{ font-size:20px; margin:0 0 4px; }
+section .section-sub{ color:var(--ink-soft); font-size:13.5px; margin-bottom:20px; }
+
+table.schedule{ width:100%; border-collapse:collapse; }
+table.schedule tr{ border-bottom:1px solid var(--line); }
+table.schedule tr:last-child{ border-bottom:none; }
+table.schedule td{ padding:10px 6px; vertical-align:top; font-size:13.8px; }
+table.schedule td.time{
+  width:130px; color:var(--tape); font-weight:600; white-space:nowrap; font-size:13px;
+}
+table.schedule td.title{ width:190px; font-weight:600; }
+table.schedule td.desc{ color:var(--ink-soft); }
+
+.date-controls{
+  display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:0 0 16px;
+}
+.date-controls button{
+  background:var(--paper); border:1px solid var(--line); color:var(--ink);
+  padding:7px 10px; border-radius:6px; cursor:pointer; font-size:12.5px;
+}
+.date-controls button:hover{border-color:var(--tape);color:var(--tape)}
+.date-controls input[type="date"]{
+  background:var(--panel); border:1px solid var(--line); color:var(--ink);
+  border-radius:6px; padding:7px 9px; font:inherit; font-size:12.5px;
+}
+.date-controls .date-note{font-size:11.5px;color:var(--ink-soft)}
+.habit-toolbar{
+  display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin:0 0 12px;
+}
+.habit-toolbar button,.habit-edit-panel button{
+  background:var(--paper);border:1px solid var(--line);color:var(--ink);
+  padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12.5px;
+}
+.habit-toolbar button.primary{
+  background:var(--ink);color:var(--panel);border-color:var(--ink);
+}
+.habit-toolbar button:hover,.habit-edit-panel button:hover{
+  border-color:var(--tape);color:var(--tape);
+}
+.habit-edit-panel{
+  display:none;background:var(--paper);border:1px solid var(--line);border-radius:6px;
+  padding:12px;margin:0 0 15px;
+}
+.habit-edit-panel.open{display:block}
+.habit-edit-row{
+  display:flex;align-items:center;gap:8px;margin:7px 0;
+}
+.habit-edit-row input[type="text"]{
+  flex:1;min-width:180px;background:var(--panel);border:1px solid var(--line);
+  border-radius:5px;padding:8px;color:var(--ink);font:inherit;
+}
+.habit-edit-row button{padding:5px 8px}
+.habit-edit-help{font-size:11.5px;color:var(--ink-soft);margin-bottom:8px}
+
+.daysel{ display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px; }
+.daysel button{
+  background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  padding:7px 13px; border-radius:20px; font-size:13px; cursor:pointer;
+}
+.daysel button.active{ background:var(--ink); border-color:var(--ink); color:var(--panel); font-weight:600; }
+
+.purpose-callout{
+  background:var(--paper); border:1px solid var(--line); border-radius:6px;
+  padding:14px 16px; margin-bottom:18px; display:flex; gap:14px; align-items:baseline; flex-wrap:wrap;
+}
+.purpose-callout .p-word{ font-family:'Source Serif 4',serif; font-size:19px; font-weight:600; color:var(--tape); }
+.purpose-callout .p-desc{ font-size:13.8px; color:var(--ink-soft); }
+
+.habit-grid{ display:flex; flex-direction:column; gap:11px; margin:16px 0 6px; }
+.habit-row{
+  display:flex; align-items:center; gap:11px; padding:9px 12px;
+  background:var(--paper); border:1px solid var(--line); border-radius:6px;
+}
+.habit-row.optional{ opacity:0.72; border-style:dashed; }
+.habit-row label{ flex:1; font-size:14px; cursor:pointer; }
+.habit-row .opt-note{ font-size:11.5px; color:var(--ink-soft); }
+
+.history-strip{ display:flex; gap:5px; align-items:flex-end; height:70px; margin:18px 0 6px; }
+.history-bar{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%; gap:5px; }
+.history-bar .bar{ width:100%; max-width:20px; background:var(--line); border-radius:3px 3px 0 0; }
+.history-bar .lbl{ font-size:9.5px; color:var(--ink-soft); }
+.history-bar.istoday .lbl{ color:var(--tape); font-weight:600; }
+
+.footnote{ margin-top:26px; padding-top:14px; border-top:1px solid var(--line); font-size:12.3px; color:var(--ink-soft); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+.footnote button{ background:none; border:none; color:var(--ink-soft); text-decoration:underline; cursor:pointer; font-size:12.3px; padding:0; }
+.footnote button:hover{ color:var(--tape); }
+
+.loading{ padding:60px 0; text-align:center; color:var(--ink-soft); font-size:14px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="masthead">
+    <div>
+      <h1>Mains Foundation Register</h1>
+      <div class="sub">UPSC CSE 2027 · one main GS subject at a time · block-wise routine · 2 GS classes + 1 Sociology class daily</div>
+    </div>
+    <div class="file-no">10 Sep – 31 Dec 2026<br>17 GS blocks · 17 mini-tests · Sociology parallel daily</div>
+  </div>
+
+  <div class="layout">
+    <nav class="tabs" id="tabs">
+      <button data-tab="today">Today</button>
+      <button data-tab="calendar">Calendar</button>
+      <button data-tab="rhythm">Daily rhythm</button>
+      <button data-tab="habits">Habits</button>
+    </nav>
+    <main class="panel" id="panel">
+      <div class="loading">Loading your register…</div>
+    </main>
+  </div>
+</div>
+
+<script>
+(function(){
+
+const YEAR = 2026;
+function d(m,day){ return new Date(YEAR, m-1, day); }
+const MS_DAY = 86400000;
+const WEEKDAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+const blocks = [
+ {id:'ethics', subject:'Ethics', start:d(9,10), end:d(9,30),
+   coverage:'Ethics and the human interface; human values; attitude; aptitude and civil-service values; emotional intelligence; moral thinkers; public-service values; probity; case studies.',
+   milestone:'Full GS4 mini-test, evaluation, and final note consolidation.', milestoneDate:d(9,30)},
+ {id:'economics', subject:'Economics', start:d(10,1), end:d(10,10),
+   coverage:'Basic concepts; growth and development; inflation; monetary and fiscal policy; banking; external sector; employment; inclusive growth; infrastructure; reforms; current economic issues.',
+   milestone:'Economy mini-test, evaluation, and master-note update.', milestoneDate:d(10,10)},
+ {id:'geography', subject:'Geography', start:d(10,11), end:d(10,19),
+   coverage:'Physical geography; geomorphology; climatology; oceanography; biogeography; Indian geography; resources; agriculture; industry; population; settlements; transport; regional planning; maps.',
+   milestone:'Geography mini-test plus map and diagram consolidation.', milestoneDate:d(10,19)},
+ {id:'scitech', subject:'Science & Technology', start:d(10,20), end:d(10,26),
+   coverage:'Space; biotechnology; health and vaccines; AI/ML; semiconductors; quantum; defence; nuclear; communication; emerging technologies — applications, risks, regulation, and the Indian context.',
+   milestone:'S&T mini-test and master-note update.', milestoneDate:d(10,26)},
+ {id:'ancient', subject:'Ancient Indian History', start:d(10,27), end:d(10,31),
+   coverage:'Prehistory; Indus Valley; Vedic age; Mahajanapadas; Buddhism and Jainism; Mauryan; post-Mauryan; Gupta; Sangam and South India; society, economy, religion, art, and literature.',
+   milestone:'Ancient History mini-test.', milestoneDate:d(10,31)},
+ {id:'medieval', subject:'Medieval Indian History', start:d(11,1), end:d(11,5),
+   coverage:'Early medieval India; Delhi Sultanate; Vijayanagara; Bahmani and regional kingdoms; Mughals; Marathas; Bhakti and Sufi movements; administration; society, economy, art, and architecture.',
+   milestone:'Medieval History mini-test.', milestoneDate:d(11,5)},
+ {id:'modern', subject:'Modern Indian History', start:d(11,6), end:d(11,15),
+   coverage:'European entry; British expansion; economic impact; land revenue; tribal and peasant movements; 1857; reform; nationalism; INC and Swadeshi; revolutionaries; Gandhian era; constitutional developments; Bose and INA; communal politics; Partition and independence.',
+   milestone:'Modern History mini-test.', milestoneDate:d(11,15)},
+ {id:'artculture', subject:'Art & Culture', start:d(11,16), end:d(11,20),
+   coverage:'Architecture; sculpture; painting; literature; music; dance; theatre; puppetry; religion and philosophy; temples; Indo-Islamic architecture; Bhakti/Sufi; UNESCO and heritage; regional traditions.',
+   milestone:'Art & Culture mini-test.', milestoneDate:d(11,20)},
+ {id:'polity', subject:'Polity & Constitution', start:d(11,21), end:d(11,30),
+   coverage:'Historical background; the Constitution; Preamble; Fundamental Rights; DPSP; Duties; amendments; basic structure; Union and State; Parliament; President and VP; PM and Council of Ministers; Judiciary; federalism; Centre-State relations; emergency provisions; constitutional bodies; local government; elections; committees; judgments; contemporary issues.',
+   milestone:'Polity mini-test.', milestoneDate:d(11,30)},
+ {id:'governance', subject:'Governance', start:d(12,1), end:d(12,4),
+   coverage:'Transparency; accountability; citizen-centric governance; e-governance; civil services; social audit; RTI; citizen charters; NGOs and SHGs; institutions; implementation; service delivery; digital governance; capacity building.',
+   milestone:'Governance mini-test.', milestoneDate:d(12,4)},
+ {id:'socialjustice', subject:'Social Justice', start:d(12,5), end:d(12,8),
+   coverage:'Health; education; poverty; hunger; vulnerable sections; women; children; the elderly; persons with disabilities; minorities; SC/ST/OBC issues; welfare architecture; implementation gaps; inclusion and empowerment.',
+   milestone:'Social Justice mini-test.', milestoneDate:d(12,8)},
+ {id:'ir', subject:'International Relations', start:d(12,9), end:d(12,13),
+   coverage:'Neighbourhood; China; Pakistan; USA; Russia; Europe/EU; West Asia; Indo-Pacific; Africa; ASEAN; QUAD; SCO; BRICS; UN; WTO; IMF/World Bank; Global South; diaspora; energy and security interests; strategic options.',
+   milestone:'IR mini-test.', milestoneDate:d(12,13)},
+ {id:'agriculture', subject:'Agriculture', start:d(12,14), end:d(12,18),
+   coverage:'Inputs, production, irrigation, technology, farmers, markets, storage, and processing through to exports; MSP; APMC; food security; subsidies; insurance; land reforms; FPOs; contract farming; allied sectors; sustainability and climate resilience.',
+   milestone:'Agriculture mini-test.', milestoneDate:d(12,18)},
+ {id:'environment', subject:'Environment & Ecology', start:d(12,19), end:d(12,24),
+   coverage:'Ecology and ecosystems; biodiversity; conservation; climate change; pollution; EIA; laws and institutions; protected areas; species; forests; wetlands; conventions; renewable energy; sustainable development.',
+   milestone:'Environment mini-test.', milestoneDate:d(12,24)},
+ {id:'security', subject:'Internal Security', start:d(12,25), end:d(12,27),
+   coverage:'Terrorism; extremism; left-wing extremism; insurgency; border security; cyber security; money laundering; organised crime; maritime security; critical infrastructure; social-media threats; intelligence; security forces; the development-security linkage.',
+   milestone:'Internal Security mini-test.', milestoneDate:d(12,27)},
+ {id:'disaster', subject:'Disaster Management', start:d(12,28), end:d(12,29),
+   coverage:'Hazard, vulnerability, and risk; mitigation; preparedness; response; recovery; Build Back Better; NDMA; institutions; community-based management; technology; climate-linked disasters; case studies.',
+   milestone:'Disaster Management mini-test.', milestoneDate:d(12,29)},
+ {id:'consolidation', subject:'Final Consolidation', start:d(12,30), end:d(12,31),
+   coverage:'Review every mini-test mistake; identify recurring weaknesses; fill major gaps; update master notes; audit the Mains syllabus and PYQs; confirm each syllabus line has understanding, value addition, examples, an answer framework, and PYQ linkage.',
+   milestone:'Full Mains foundation audit complete.', milestoneDate:d(12,31)},
+];
+
+const scheduleMonSat = [
+  {time:'6:30 – 7:15', title:'NEWSPAPER', desc:'Newspaper only. Extract useful current-affairs material.'},
+  {time:'7:15 – 7:45', title:'CURRENT AFFAIRS', desc:'2 CA quizzes.'},
+  {time:'7:45 – 8:30', title:'ANSWER WRITING', desc:'One independent GS answer — September: Ethics; thereafter: current Current Main GS Subject.'},
+  {time:'8:30 – 9:00', title:'PRELIMS PYQs', desc:'25 daily Prelims PYQs.'},
+  {time:'9:00 – 10:00', title:'BREAKFAST', desc:'Full breakfast + reset.'},
+
+  {time:'10:00 – 12:30', title:'GS BLOCK', desc:'<strong>10:00–11:30: GS Class 1 (1.5 hrs).</strong><br><strong>11:30–12:30: current Current Main GS Subject study.</strong><br>This is one continuous GS block; do not switch to Sociology inside it.'},
+
+  {time:'12:30 – 1:30', title:'LUNCH + REST', desc:'Protected break.'},
+
+  {time:'1:30 – 4:00', title:'SOCIOLOGY BLOCK', desc:'<strong>1:30–3:00: exactly 1 Sociology class (1.5 hrs).</strong><br><strong>3:00–4:00: Sociology study only.</strong><br>Study already-taught material: recall → concepts → thinkers → criticism → examples → PYQ linkage. No second Sociology class.'},
+
+  {time:'4:00 – 6:00', title:'GYM', desc:'Two-hour gym block + freshen up for class.'},
+
+  {time:'6:00 – 8:00', title:'GS LIVE CLASS BLOCK', desc:'<strong>6:00–7:30: GS Live Class (1.5 hrs).</strong><br><strong>7:30–8:00: class wrap / settle notes / transition to dinner.</strong>'},
+
+  {time:'8:00 – 9:00', title:'DINNER + REST', desc:'Protected decompression. No heavy new study.'},
+  {time:'9:00 – 9:30', title:'LIGHT CLASS CLOSE', desc:'Only review/organise today’s class material and mark doubts.'},
+  {time:'9:30 – 10:00', title:'DAY CLOSE', desc:'Set tomorrow’s 3 priorities. Stop on time.'},
+];
+const scheduleSunday = [
+  {time:'6:30 – 7:15', title:'NEWSPAPER', desc:'Light newspaper reading.'},
+  {time:'7:15 – 7:45', title:'CURRENT AFFAIRS', desc:'2 CA quizzes.'},
+  {time:'7:45 – 8:15', title:'PRELIMS PYQs', desc:'25 PYQs only. No catch-up.'},
+  {time:'8:15 – 9:00', title:'OFF', desc:'No planned answer-writing pressure.'},
+  {time:'9:00 – 10:00', title:'BREAKFAST', desc:'Slow morning.'},
+  {time:'10:00 – 11:30', title:'SOCIOLOGY CLASS', desc:'Exactly 1 Sociology class (1.5 hrs). Keep the one-class-per-day rule.'},
+  {time:'11:30 – 12:00', title:'SOCIOLOGY RECALL', desc:'Very light recall of the class. No heavy note-making.'},
+  {time:'12:00 onward', title:'HALF DAY OFF', desc:'Lunch, family, leisure, outing, hobbies, rest. No GS catch-up, no gym, no backlog sprint.'},
+];
+
+const weeklyRhythm = [
+  {day:'Monday', purpose:'BUILD', change:'Main GS: start the week’s Current Main GS Subject strongly. Sociology: one class + one study block.'},
+  {day:'Tuesday', purpose:'BUILD', change:'Main GS: continue the same Current Main GS Subject. Sociology stays parallel, one class + one study block.'},
+  {day:'Wednesday', purpose:'DEEPEN', change:'Main GS: harder concepts, PYQ linkage, and gap-finding. Sociology: reinforce covered topics.'},
+  {day:'Thursday', purpose:'APPLY', change:'Main GS: convert study into answer frameworks/value addition. Sociology remains a clean block.'},
+  {day:'Friday', purpose:'CONSOLIDATE', change:'Main GS: close the week’s study gaps. Sociology: consolidate the week’s classes and choose the Saturday question.'},
+  {day:'Saturday', purpose:'WRITE + CLOSE', change:'Main GS: finish the weekly target and PYQ review. Sociology: <strong>1 weekly answer</strong> + weekly consolidation.'},
+  {day:'Sunday', purpose:'RESET', change:'One Sociology class, essential morning habits, then <strong>half day off</strong>.'},
+];
+
+const habitDefs = [
+  {id:'newspaper', label:'Newspaper'},
+  {id:'quizzes', label:'2 CA quizzes'},
+  {id:'answers', label:'Daily GS answer writing'},
+  {id:'pyqs', label:'25 Prelims PYQs'},
+
+  {id:'gsclass1', label:'GS Class 1 (1.5 hrs)'},
+  {id:'register', label:'Current Main GS Subject studied'},
+
+  {id:'sociology', label:'1 Sociology class (1.5 hrs)'},
+  {id:'sociostudy', label:'Sociology study'},
+
+  {id:'liveclass', label:'GS live class (1.5 hrs)'},
+  {id:'gym', label:'Gym (4–6)'},
+  {id:'weeklySoc', label:'Saturday ONLY — 1 Sociology answer'},
+];
+const sundayOptional = ['answers','register','gsclass1','sociostudy','liveclass','gym'];
+
+// ---------- state ----------
+let state = { milestones:{}, habits:{}, habitDefsByDay:{} };
+let saveTimer = null;
+
+function pad(n){ return n<10 ? '0'+n : ''+n; }
+function dateKey(dt){ return dt.getFullYear()+'-'+pad(dt.getMonth()+1)+'-'+pad(dt.getDate()); }
+function midnight(dt){ const c=new Date(dt); c.setHours(0,0,0,0); return c; }
+function fmtDate(dt){ return dt.toLocaleDateString('en-IN',{ day:'numeric', month:'long' }); }
+function fmtDateShort(dt){ return dt.toLocaleDateString('en-IN',{ day:'numeric', month:'short' }); }
+
+const STORAGE_KEY = 'upsc-planner-state-v6-interface-current-main-gs-2026-09-09';
+
+async function loadState(){
+  try{
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      const parsed = JSON.parse(raw);
+      state = Object.assign({milestones:{}, habits:{}, habitDefsByDay:{}}, parsed);
+    }
+  }catch(e){
+    console.error('Load failed', e);
+  }
+}
+function queueSave(){
+  if(saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    try{
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }catch(e){
+      console.error('Save failed', e);
+    }
+  }, 150);
+}
+function getHabitDay(key){
+  if(!state.habits[key]) state.habits[key] = {};
+  return state.habits[key];
+}
+function getMilestone(id){
+  if(!state.milestones[id]) state.milestones[id] = { done:false, notes:'' };
+  return state.milestones[id];
+}
+
+// ---------- derived data ----------
+function currentBlock(today){
+  for(const b of blocks){ if(today.getTime()>=b.start.getTime() && today.getTime()<=b.end.getTime()) return b; }
+  return null;
+}
+function planStart(){ return blocks[0].start; }
+function planEnd(){ return blocks[blocks.length-1].end; }
+
+// ---------- rendering ----------
+let activeTab = 'today';
+let rhythmDayIdx = null; // 0=Mon..6=Sun, null = today's
+let selectedDayKey = null; // null = today; allows marking any day in the plan
+function defaultHabitDefsForDay(dayKey){
+  const dt = new Date(dayKey + 'T00:00:00');
+  const saturday = dt.getDay()===6;
+  return habitDefs
+    .filter(h => h.id !== 'weeklySoc' || saturday)
+    .map(h => ({id:h.id, label:h.label}));
+}
+function getDayHabitDefs(dayKey){
+  if(!state.habitDefsByDay) state.habitDefsByDay = {};
+  if(!state.habitDefsByDay[dayKey]){
+    state.habitDefsByDay[dayKey] = defaultHabitDefsForDay(dayKey);
+  }
+  return state.habitDefsByDay[dayKey];
+}
+function uniqueHabitId(){
+  return 'custom_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7);
+}
+
+
+function selectedDate(){
+  if(selectedDayKey){
+    const parts = selectedDayKey.split('-').map(Number);
+    return midnight(new Date(parts[0], parts[1]-1, parts[2]));
+  }
+  return midnight(new Date());
+}
+function isoDate(dt){ return dateKey(dt); }
+function shiftSelectedDay(delta){
+  const cur = selectedDate();
+  const next = new Date(cur.getTime() + delta*MS_DAY);
+  selectedDayKey = isoDate(next);
+  render();
+}
+
+function renderHabitRow(h, dayKey, isSunday){
+  const day = getHabitDay(dayKey);
+  const checked = !!day[h.id];
+  return `<div class="habit-row">
+    <input type="checkbox" class="habit-check" data-day="${dayKey}" data-habit="${h.id}" id="hc-${dayKey}-${h.id}" ${checked?'checked':''}>
+    <label for="hc-${dayKey}-${h.id}">${h.label}</label>
+  </div>`;
+}
+
+function renderScheduleTable(rows){
+  return `<table class="schedule">${rows.map(r=>`<tr>
+    <td class="time">${r.time}</td>
+    <td class="title">${r.title}</td>
+    <td class="desc">${r.desc}</td>
+  </tr>`).join('')}</table>`;
+}
+
+function renderToday(){
+  const today = midnight(new Date());
+  const selected = selectedDate();
+  const dayKey = dateKey(selected);
+  const weekday = WEEKDAYS[selected.getDay()];
+  const isSunday = selected.getDay()===0;
+  const block = currentBlock(selected);
+
+  const totalDays = Math.round((planEnd()-planStart())/MS_DAY)+1;
+  let dayCount = Math.round((selected-planStart())/MS_DAY)+1;
+  dayCount = Math.max(0, Math.min(totalDays, dayCount));
+  const pct = Math.round((dayCount/totalDays)*100);
+
+  let heroRight = `<div class="day-count">Day <strong>${dayCount}</strong> of ${totalDays}<br>${pct}% through the foundation phase</div>`;
+
+  let blockSection = '';
+  if(block){
+    const ms = getMilestone(block.id);
+    const daysToMilestone = Math.round((block.milestoneDate - selected)/MS_DAY);
+    let msLine;
+    if(daysToMilestone > 0) msLine = `Mini-test in ${daysToMilestone} day${daysToMilestone===1?'':'s'} — ${fmtDate(block.milestoneDate)}.`;
+    else if(daysToMilestone === 0) msLine = `Mini-test day — ${fmtDate(block.milestoneDate)}.`;
+    else msLine = `Was due ${fmtDate(block.milestoneDate)}.`;
+
+    blockSection = `<div class="block-card current">
+      <span class="tag current">${selected.getTime()===today.getTime()?'current block':'selected day'}</span>
+      <h3 class="serif">${block.subject}</h3>
+      <div class="dates">${fmtDateShort(block.start)} – ${fmtDateShort(block.end)}</div>
+      <p class="coverage"><strong>Current Main GS Subject:</strong> ${block.subject}<br>${block.coverage}</p>
+      <div class="milestone-row">
+        <input type="checkbox" class="milestone-check" data-id="${block.id}" id="mstoday" ${ms.done?'checked':''}>
+        <label for="mstoday"><strong>${block.milestone}</strong><br>${msLine}</label>
+      </div>
+    </div>`;
+  } else {
+    blockSection = `<div class="block-card">
+      <span class="tag current">custom day</span>
+      <h3 class="serif">No main GS block scheduled</h3>
+      <div class="dates">${fmtDateShort(selected)}</div>
+      <p class="coverage">This date is outside the Sep–Dec Mains Foundation rotation. You can still edit and save this day’s habits, notes, and personal tracking.</p>
+    </div>`;
+  }
+
+  const scheduleRows = isSunday ? scheduleSunday : scheduleMonSat;
+  const rhythm = weeklyRhythm[(selected.getDay()+6)%7];
+  const habitsHtml = getDayHabitDefs(dayKey).map(h=>renderHabitRow(h, dayKey, isSunday)).join('');
+
+  document.getElementById('panel').innerHTML = `
+    <div class="today-hero">
+      <div class="date-block">
+        <div class="weekday">${weekday}</div>
+        <div class="datenum serif">${fmtDate(selected)}</div>
+      </div>
+      ${heroRight}
+    </div>
+
+    <div class="date-controls">
+      <button type="button" id="prevDayBtn">← Previous day</button>
+      <input type="date" id="dayPicker" value="${dayKey}">
+      <button type="button" id="nextDayBtn">Next day →</button>
+      <button type="button" id="todayBtn">Today</button>
+      <span class="date-note">Pick any calendar day to mark that day’s habits and notes.</span>
+    </div>
+
+    <div class="eyebrow-line">
+      <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    ${blockSection}
+    <section>
+      <h2 class="serif">${selected.getTime()===today.getTime()?'Today':'Selected day'}'s schedule</h2>
+      <div class="section-sub">${isSunday ? 'Sunday — half day off after Sociology' : 'Monday to Saturday — block-wise fixed routine'}</div>
+      ${renderScheduleTable(scheduleRows)}
+    </section>
+    <div class="purpose-callout">
+      <span class="p-word serif">${rhythm.purpose}</span>
+      <span class="p-desc">${rhythm.change}</span>
+    </div>
+    <section>
+      <h2 class="serif">${selected.getTime()===today.getTime()?'Today':'Selected day'}'s habits</h2>
+      <div class="section-sub">Mark completion for this specific date. Your records are stored separately by day.</div>
+      <div class="habit-grid">${habitsHtml}</div>
+    </section>
+    ${renderFootnote()}
+  `;
+}
+
+function renderCalendar(){
+  const today = midnight(new Date());
+  const rows = blocks.map(b=>{
+    const ms = getMilestone(b.id);
+    const isCurrent = today.getTime()>=b.start.getTime() && today.getTime()<=b.end.getTime();
+    const isPast = today > b.end;
+    const overdue = isPast && !ms.done;
+    let tag = '';
+    if(isCurrent) tag = '<span class="tag current">current</span>';
+    else if(ms.done) tag = '<span class="tag done">done</span>';
+    else if(overdue) tag = '<span class="tag overdue">not marked done</span>';
+    return `<div class="block-card${isCurrent?' current':''}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap;">
+        <div>
+          <div class="dates">${fmtDateShort(b.start)} – ${fmtDateShort(b.end)}</div>
+          <h3 class="serif">${b.subject}</h3>
+        </div>
+        <div>${tag}</div>
+      </div>
+      <p class="coverage">${b.coverage}</p>
+      <div class="milestone-row">
+        <input type="checkbox" class="milestone-check" data-id="${b.id}" id="ms-${b.id}" ${ms.done?'checked':''}>
+        <label for="ms-${b.id}">${b.milestone}</label>
+      </div>
+      <textarea class="notes-field" data-notes="${b.id}" placeholder="Gaps found, weak areas, follow-ups…">${ms.notes||''}</textarea>
+    </div>`;
+  }).join('');
+
+  document.getElementById('panel').innerHTML = `
+    <section>
+      <h2 class="serif">Macro calendar</h2>
+      <div class="section-sub">All 17 blocks, 10 September – 31 December 2026. Tick each mini-test off as you clear it.</div>
+      ${rows}
+    </section>
+    ${renderFootnote()}
+  `;
+}
+
+function renderRhythm(){
+  const today = midnight(new Date());
+  const todayIdx = (today.getDay()+6)%7; // 0=Mon
+  const idx = rhythmDayIdx===null ? todayIdx : rhythmDayIdx;
+  const isSunday = idx===6;
+  const r = weeklyRhythm[idx];
+  const dayBtns = weeklyRhythm.map((w,i)=>`<button data-day-idx="${i}" class="${i===idx?'active':''}">${w.day.slice(0,3)}</button>`).join('');
+
+  document.getElementById('panel').innerHTML = `
+    <section>
+      <h2 class="serif">Daily rhythm</h2>
+      <div class="section-sub">Pick a day to see its purpose and time blocks.</div>
+      <div class="daysel">${dayBtns}</div>
+      <div class="purpose-callout">
+        <span class="p-word serif">${r.purpose}</span>
+        <span class="p-desc">${r.change}</span>
+      </div>
+      ${renderScheduleTable(isSunday ? scheduleSunday : scheduleMonSat)}
+    </section>
+    ${renderFootnote()}
+  `;
+}
+
+function renderHabits(){
+  const today = midnight(new Date());
+  const selected = selectedDate();
+  const dayKey = dateKey(selected);
+  const isSunday = selected.getDay()===0;
+  const defs = getDayHabitDefs(dayKey);
+
+  const bars = [];
+  for(let i=13;i>=0;i--){
+    const dt = new Date(today.getTime() - i*MS_DAY);
+    const key = dateKey(dt);
+    const rec = state.habits[key];
+    let frac = 0, has = false;
+    if(rec){
+      has=true;
+      const dayDefs = getDayHabitDefs(key);
+      const vals = dayDefs.map(h=>!!rec[h.id]);
+      frac = vals.length ? vals.filter(Boolean).length / vals.length : 0;
+    }
+    const heightPct = has ? Math.max(6, Math.round(frac*100)) : 4;
+    const color = !has ? 'var(--line)' : (frac>=0.9 ? 'var(--approved)' : 'var(--tape)');
+    const isToday = key===dateKey(today);
+    bars.push(`<div class="history-bar${isToday?' istoday':''}">
+      <div class="bar" style="height:${heightPct}%; background:${color};"></div>
+      <div class="lbl">${dt.getDate()}</div>
+    </div>`);
+  }
+
+  const habitsHtml = defs.map(h=>renderHabitRow(h, dayKey, isSunday)).join('');
+  const editRows = defs.map((h,idx)=>`
+    <div class="habit-edit-row" data-edit-index="${idx}">
+      <input type="text" class="habit-name-input" value="${String(h.label).replace(/"/g,'&quot;')}">
+      <button type="button" class="delete-habit-btn" data-index="${idx}" title="Remove this habit for this day">Remove</button>
+    </div>
+  `).join('');
+
+  document.getElementById('panel').innerHTML = `
+    <section>
+      <h2 class="serif">Habit tracker</h2>
+      <div class="section-sub">Choose any calendar date. Edit the habit list for that specific day and mark completion.</div>
+      <div class="date-controls">
+        <button type="button" id="prevDayBtn">← Previous day</button>
+        <input type="date" id="dayPicker" value="${dayKey}">
+        <button type="button" id="nextDayBtn">Next day →</button>
+        <button type="button" id="todayBtn">Today</button>
+      </div>
+
+      <div class="habit-toolbar">
+        <button type="button" class="primary" id="toggleHabitEditBtn">Edit habits for this day</button>
+        <button type="button" id="resetDayHabitsBtn">Reset this day to default</button>
+      </div>
+
+      <div class="habit-edit-panel" id="habitEditPanel">
+        <div class="habit-edit-help">Changes here apply only to <strong>${fmtDate(selected)}</strong>. Rename, remove, or add habits. Completion marks for this date are kept.</div>
+        <div id="habitEditRows">${editRows}</div>
+        <div class="habit-edit-row">
+          <input type="text" id="newHabitInput" placeholder="New habit for this day">
+          <button type="button" id="addHabitBtn">Add habit</button>
+        </div>
+      </div>
+
+      <div class="habit-grid">${habitsHtml}</div>
+    </section>
+    <section style="margin-top:24px;">
+      <h2 class="serif" style="font-size:16px;">Last 14 days</h2>
+      <div class="history-strip">${bars.join('')}</div>
+    </section>
+    ${renderFootnote()}
+  `;
+}
+
+function renderFootnote(){
+  return `<div class="footnote">
+    <span>Progress saves automatically in this browser.</span><button id="resetBtn" type="button">Clear tracked progress</button>
+  </div>`;
+}
+
+function render(){
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('active', b.dataset.tab===activeTab));
+  if(activeTab==='today') renderToday();
+  else if(activeTab==='calendar') renderCalendar();
+  else if(activeTab==='rhythm') renderRhythm();
+  else if(activeTab==='habits') renderHabits();
+}
+
+// ---------- events ----------
+document.getElementById('tabs').addEventListener('click', e=>{
+  const btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  activeTab = btn.dataset.tab;
+  render();
+});
+
+document.addEventListener('click', e=>{
+  if(e.target.id==='toggleHabitEditBtn'){
+    const p = document.getElementById('habitEditPanel');
+    if(p) p.classList.toggle('open');
+    return;
+  }
+  if(e.target.id==='resetDayHabitsBtn'){
+    const key = dateKey(selectedDate());
+    if(confirm('Reset this day’s habit list to the default habits? Completion marks for the day will remain.')){
+      if(state.habitDefsByDay) delete state.habitDefsByDay[key];
+      queueSave();
+      render();
+    }
+    return;
+  }
+  if(e.target.id==='addHabitBtn'){
+    const input = document.getElementById('newHabitInput');
+    const label = (input?.value || '').trim();
+    if(label){
+      const key = dateKey(selectedDate());
+      const defs = getDayHabitDefs(key);
+      defs.push({id:uniqueHabitId(), label});
+      queueSave();
+      render();
+      setTimeout(()=>{
+        const panel = document.getElementById('habitEditPanel');
+        if(panel) panel.classList.add('open');
+      },0);
+    }
+    return;
+  }
+  if(e.target.matches('.delete-habit-btn')){
+    const key = dateKey(selectedDate());
+    const idx = Number(e.target.dataset.index);
+    const defs = getDayHabitDefs(key);
+    if(Number.isInteger(idx) && idx>=0 && idx<defs.length){
+      const removed = defs[idx];
+      if(confirm('Remove “'+removed.label+'” from this day?')){
+        defs.splice(idx,1);
+        if(state.habits[key]) delete state.habits[key][removed.id];
+        queueSave();
+        render();
+        setTimeout(()=>{
+          const panel = document.getElementById('habitEditPanel');
+          if(panel) panel.classList.add('open');
+        },0);
+      }
+    }
+    return;
+  }
+  if(e.target.id==='prevDayBtn'){ shiftSelectedDay(-1); return; }
+  if(e.target.id==='nextDayBtn'){ shiftSelectedDay(1); return; }
+  if(e.target.id==='todayBtn'){ selectedDayKey = null; render(); return; }
+  const dayBtn = e.target.closest('button[data-day-idx]');
+  if(dayBtn){ rhythmDayIdx = parseInt(dayBtn.dataset.dayIdx,10); render(); return; }
+  if(e.target.id==='resetBtn'){
+    if(confirm('Clear all tracked mini-test and habit progress? This cannot be undone.')){
+      state = { milestones:{}, habits:{}, habitDefsByDay:{} };
+      queueSave();
+      render();
+    }
+  }
+});
+
+document.addEventListener('change', e=>{
+  if(e.target.matches('.habit-name-input')){
+    const row = e.target.closest('.habit-edit-row');
+    const idx = Number(row?.dataset.editIndex);
+    const key = dateKey(selectedDate());
+    const defs = getDayHabitDefs(key);
+    const label = (e.target.value || '').trim();
+    if(Number.isInteger(idx) && idx>=0 && idx<defs.length && label){
+      defs[idx].label = label;
+      queueSave();
+    }
+    return;
+  }
+  if(e.target.id==='dayPicker'){
+    if(e.target.value){
+      selectedDayKey = e.target.value;
+      render();
+    }
+    return;
+  }
+  if(e.target.matches('.habit-check')){
+    const day = getHabitDay(e.target.dataset.day);
+    day[e.target.dataset.habit] = e.target.checked;
+    queueSave();
+    try{ window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(err){}
+    if(e.target.checked){ e.target.parentElement.classList.add('stamped'); setTimeout(()=>e.target.parentElement.classList.remove('stamped'),250); }
+  }
+  if(e.target.matches('.milestone-check')){
+    const ms = getMilestone(e.target.dataset.id);
+    ms.done = e.target.checked;
+    queueSave();
+    try{ window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(err){}
+    render();
+  }
+});
+
+document.addEventListener('input', e=>{
+  if(e.target.matches('.notes-field')){
+    const ms = getMilestone(e.target.dataset.notes);
+    ms.notes = e.target.value;
+    queueSave();
+    try{ window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(err){}
+  }
+});
+
+// ---------- init ----------
+(async function init(){
+  await loadState();
+  render();
+})();
+
+})();
+</script>
+</body>
+</html>
